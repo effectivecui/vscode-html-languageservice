@@ -72,42 +72,42 @@ export interface Node {
 }
 
 export enum TokenType {
-	StartCommentTag,
-	Comment,
-	EndCommentTag,
-	StartTagOpen,
-	StartTagClose,
-	StartTagSelfClose,
-	StartTag,
-	EndTagOpen,
-	EndTagClose,
-	EndTag,
-	DelimiterAssign,
-	AttributeName,
-	AttributeValue,
-	StartDoctypeTag,
-	Doctype,
-	EndDoctypeTag,
-	Content,
-	Whitespace,
+	StartCommentTag, // 刚刚遍历了 <!--
+	Comment, // 刚刚遍历了 注释
+	EndCommentTag, // 刚刚遍历了 --!>
+	StartTagOpen, // 刚刚遍历了 < （下一个是tag）
+	StartTagClose, // 刚刚遍历了 > （下一个是内容）
+	StartTagSelfClose, // 刚刚遍历了 />（自闭合）
+	StartTag, // 刚刚遍历了 start tag
+	EndTagOpen, // 刚刚遍历了 </ （下一个是 tag ）
+	EndTagClose, // 刚刚遍历了 > ，结束标签
+	EndTag, // 刚刚遍历了 end tag
+	DelimiterAssign, // 刚刚 遍历了 = 号（属性name之后）
+	AttributeName, // 刚刚 遍历了 属性name
+	AttributeValue, // 刚刚 遍历了 属性 value
+	StartDoctypeTag, // 刚刚遍历了 !doctype
+	Doctype, // 刚刚遍历了 doctype里面的内容
+	EndDoctypeTag, // 刚刚遍历了 doctype 之后的 >
+	Content,  // 刚刚遍历了 html tag里面的内容
+	Whitespace, // 刚刚遍历了空白字符
 	Unknown,
-	Script,
-	Styles,
-	EOS
+	Script, // 刚刚遍历了 script content
+	Styles, // 刚刚遍历了 style content
+	EOS // 结束
 }
 
 export enum ScannerState {
-	WithinContent,
-	AfterOpeningStartTag,
-	AfterOpeningEndTag,
-	WithinDoctype,
-	WithinTag,
-	WithinEndTag,
-	WithinComment,
-	WithinScriptContent,
-	WithinStyleContent,
-	AfterAttributeName,
-	BeforeAttributeValue
+	WithinContent, // else
+	AfterOpeningStartTag, // < 之后 && 后面有可能跟着 tag
+	AfterOpeningEndTag, // </ 之后 && 后面有可能跟着 tag
+	WithinDoctype, // !doctype 之后
+	WithinTag, // 处于 tag 之中
+	WithinEndTag, // 处于 end tag 之中
+	WithinComment, // <!-- 之后
+	WithinScriptContent, // <script> 之后
+	WithinStyleContent, // <style> 之后
+	AfterAttributeName, // <xxx [name] 之后
+	BeforeAttributeValue // <xxx [name]= 之后
 }
 
 export interface Scanner {
